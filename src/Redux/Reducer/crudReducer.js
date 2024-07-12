@@ -32,6 +32,25 @@ const crudReducer = (state=initialState , action) => {
                 error : null
             }
 
+        case 'updateuser' :
+            let up = state.user.map((val) => {
+                if(val.id == action.payload.id){
+                    val.name = action.payload.name;
+                    val.password = action.password.password;
+                    val.gender = action.payload.gender;
+                    val.department = action.payload.department;
+                    val.email = action.payload.email;
+                    val.date = action.payload.date;
+                    val.course = action.payload.course
+                }
+                return val
+            })
+            return {
+                ...state,
+                user : update,
+                error : null
+                }
+
         default :
             return state
     }

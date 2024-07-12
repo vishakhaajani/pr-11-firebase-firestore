@@ -1,10 +1,8 @@
-import React, { useState ,useEffect } from 'react'
+import React, { useState , useEffect } from 'react'
 import Header from '../Component/Header'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { addUser } from '../Redux/Action/action'
-import { signOut } from 'firebase/auth'
-import { auth } from '../firebaseConfige'
+import { editUser } from '../Redux/Action/action'
 
 const Add = () => {
 
@@ -22,7 +20,7 @@ const Add = () => {
     useEffect(() => {
         let token = localStorage.getItem('token');
         if(!token){
-            navigate('/add')
+            navigate('/edit')
         }
     },[])
 
@@ -39,8 +37,8 @@ const Add = () => {
             department : department
         }
 
-        dispatch(addUser(obj))
-        alert("record added...")
+        dispatch(editUser(obj))
+        alert("record edit...")
         navigate('/')
     }
 
@@ -56,24 +54,11 @@ const Add = () => {
         })
     }
 
-    const handleLogout =  async() => {
-        try{
-           await signOut(auth);
-            localStorage.removeItem('token');
-            navigate('/');
-        }
-        catch(err){
-            console.log(err);
-            return false
-        }
-    }
-
     return (
         <div>
             <Header/>
             <div className="container">
                 <div className="row">
-                <h2 className="mt-5" align="center">Add page By firebase firestore</h2>
                     <div className="col-lg-6 mx-auto mt-5 p-3 shadow">
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
@@ -117,15 +102,7 @@ const Add = () => {
                             </div>
                             
                             <button type="submit" className="btn btn-primary">Submit</button>
-
-                            <br></br>
-                            <br></br>
-   
                         </form>
-
-
-                        <button  onClick={() => handleLogout()} >Logout</button>
-
 
                     </div>
                 </div>

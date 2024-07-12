@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore } from "firebase/firestore"
+import { addDoc, collection, deleteDoc, doc, getDocs, getFirestore, updateDoc } from "firebase/firestore"
 import app from '../../firebaseConfige'
 const db = getFirestore(app)
 
@@ -56,6 +56,31 @@ export const deleteUser = (id) => {
            dispatch({
             type : 'deleteUser',
             payload : id
+           })
+        }
+        catch(err){
+            console.log(err);
+            return false
+        }
+    }
+}
+
+export const editUser = (id) => {
+    return async (dispatch) => {
+        try{
+           let updateUser = await doc(db,"users",id)
+           await updateDoc(updateUser , {
+            name : user.name,
+            email : user.email,
+            password : user.password,
+            gender : user.gender,
+            course : user.course,
+            department : user.department,
+            date : user.date
+           })
+           dispatch({
+            type : "updateuser",
+            payload : user
            })
         }
         catch(err){
